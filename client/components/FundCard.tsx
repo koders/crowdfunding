@@ -17,7 +17,7 @@ const FundCard = ({
 
   return (
     <div
-      className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer overflow-hidden"
+      className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer overflow-hidden transition-all hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
       onClick={handleClick}
     >
       <img
@@ -32,7 +32,7 @@ const FundCard = ({
             {title}
           </h3>
           <p className="text-xs mt-[5px] font-normal text-[#808191] text-left leading-[18px]">
-            {description}
+            {description.substring(0, 200)} {description.length > 200 && "..."}
           </p>
         </div>
 
@@ -42,7 +42,7 @@ const FundCard = ({
               {amountCollected}
             </h4>
             <p className="mt-[3px] font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
-              Raised of {target}
+              Raised of {target} FTM
             </p>
           </div>
           <div className="flex flex-col">

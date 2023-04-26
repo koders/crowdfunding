@@ -33,8 +33,6 @@ export const StateContextProvider = ({
     "createCampaign"
   ) as any;
 
-  console.log(contract);
-
   const address = useAddress();
   const connect = useMetamask();
 
@@ -72,7 +70,6 @@ export const StateContextProvider = ({
       imageUrl: campaign.image,
       id: i,
     }));
-    console.log(parsedCampaings);
 
     return parsedCampaings;
   };

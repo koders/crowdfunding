@@ -24,8 +24,9 @@ const Navbar = () => {
         </div>
         <div className="flex gap-8 ml-8">
           {PAGES.map((page) => {
+            const isActive = router.pathname === page.link;
             return (
-              <div className="flex items-center" key={page.name}>
+              <div className={`flex items-center transition-all px-4 rounded-lg ${isActive ? "bg-white text-black" : "hover:bg-white hover:bg-opacity-10"}`} key={page.name}>
                 <page.icon size="20" />
                 <button
                   className="p-2 rounded-lg"

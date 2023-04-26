@@ -3,17 +3,22 @@ import App from "./_app";
 import { useStateContext } from "../context";
 import { useEffect, useState } from "react";
 import FundCard from "../components/FundCard";
+import LoadingFundCard from "../components/LoadingFundCard";
 
 const Home: NextPage = () => {
   const { contract, getCampaigns } = useStateContext();
   const [campaigns, setCampaigns] = useState<any>([]);
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (!contract) {
       return;
     }
     const fetch = async () => {
-      setCampaigns(await getCampaigns());
+      const allCampaigns = await getCampaigns();
+      
+      setIsLoading(false);
+      setCampaigns(allCampaigns);
     };
 
     fetch();
@@ -25,13 +30,14 @@ const Home: NextPage = () => {
           All Campaigns ({campaigns.length})
         </h1>
 
-        <div className="flex flex-wrap mt-[20px] gap-[26px]">
+        <div className={`flex flex-wrap mt-[20px] gap-[26px]`}>
           {isLoading && (
-            <img
-              // src={loader}
-              alt="loader"
-              className="w-[100px] h-[100px] object-contain"
-            />
+            <>
+              <LoadingFundCard />
+              <LoadingFundCard />
+              <LoadingFundCard />
+              <LoadingFundCard />
+              </>
           )}
 
           {!isLoading && campaigns.length === 0 && (
