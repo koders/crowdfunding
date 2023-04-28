@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   SmartContract,
   useAddress,
@@ -15,7 +21,10 @@ interface StateContextProps {
   connect: () => void;
   contract: SmartContract | undefined;
   publishCampaign: ({}: IForm) => void;
-  getCampaigns: () => Promise<[SmartContract]>;
+  filter: string;
+  setFilter: (text: string) => void;
+  filteredCampaigns: any;
+  isLoadingCampaigns: boolean;
 }
 
 const StateContext = createContext({} as StateContextProps);
@@ -35,6 +44,13 @@ export const StateContextProvider = ({
 
   const address = useAddress();
   const connect = useMetamask();
+  const [filter, setFilter] = useState("");
+  const [allCampaigns, setAllCampaigns] = useState([] as any);
+
+  const { data: rawCampaigns, isLoading: isLoadingCampaigns } = useContractRead(
+    contract,
+    "getCampaigns"
+  );
 
   const publishCampaign = async (form: IForm) => {
     try {
@@ -55,10 +71,9 @@ export const StateContextProvider = ({
     }
   };
 
-  const getCampaigns = async () => {
-    const campaigns = await contract?.call("getCampaigns");
-
-    const parsedCampaings = campaigns.map((campaign: any, i: number) => ({
+  useEffect(() => {
+    if (!rawCampaigns) return;
+    const parsedCampaings = rawCampaigns.map((campaign: any, i: number) => ({
       owner: campaign.owner,
       title: campaign.title,
       description: campaign.description,
@@ -71,8 +86,17 @@ export const StateContextProvider = ({
       id: i,
     }));
 
-    return parsedCampaings;
-  };
+    setAllCampaigns(parsedCampaings);
+
+    localStorage.setItem("campaignCount", String(rawCampaigns.length));
+  }, [rawCampaigns]);
+
+  const filteredCampaigns = allCampaigns.filter((campaign: any) => {
+    return (
+      campaign.title.toLowerCase().includes(filter.toLowerCase()) ||
+      campaign.description.toLowerCase().includes(filter.toLowerCase())
+    );
+  });
 
   return (
     <StateContext.Provider
@@ -81,7 +105,10 @@ export const StateContextProvider = ({
         connect,
         contract,
         publishCampaign,
-        getCampaigns,
+        filteredCampaigns,
+        setFilter,
+        filter,
+        isLoadingCampaigns,
       }}
     >
       {children}

@@ -18,7 +18,7 @@ function App({ Component, pageProps }: AppProps) {
           {/* <Sidebar /> */}
           <div className="w-full">
             <Navbar />
-            <div className="p-8 pt-12">
+            <div className="p-8">
               <Component {...pageProps} />
             </div>
           </div>

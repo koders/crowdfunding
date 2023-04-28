@@ -6,6 +6,7 @@ import { useStateContext } from "../context";
 import { ethers } from "ethers";
 import { validateImage } from "../utils";
 import { IForm } from "../types";
+import Button from "../components/Button";
 
 interface Props {}
 
@@ -111,12 +112,9 @@ const CreateCampaign: NextPage<Props> = ({}) => {
         />
 
         <div className="flex justify-center items-center mt-[40px]">
-          <button
-            type="submit"
-            className="mr-4 h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:to-blue-600 hover:from-blue-500 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out focus:shadow-[0_0_0_3px_rgba(255,255,255,.5)]"
-          >
+          <Button type="submit" theme="blue">
             Create Campaign
-          </button>
+          </Button>
         </div>
       </form>
     </div>

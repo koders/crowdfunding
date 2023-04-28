@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .bg-box {
+    @apply bg-gradient-to-br;
+    @apply from-[rgba(255,255,255,0.1)];
+    @apply to-[rgba(255,255,255,0.05)];
+  }
+  .bg-button {
+    @apply bg-gradient-to-br;
+    @apply from-[rgba(210,0,255,0.8)];
+    @apply to-[rgba(210,0,255,0.5)];
+  }
+}
+
 html,
 body {
   padding: 0;

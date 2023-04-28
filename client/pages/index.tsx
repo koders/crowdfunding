@@ -1,58 +1,58 @@
 import type { NextPage } from "next";
-import App from "./_app";
 import { useStateContext } from "../context";
 import { useEffect, useState } from "react";
 import FundCard from "../components/FundCard";
 import LoadingFundCard from "../components/LoadingFundCard";
+import { Router, useRouter } from "next/router";
+
+const DEFAULT_COUNT = 0;
 
 const Home: NextPage = () => {
-  const { contract, getCampaigns } = useStateContext();
-  const [campaigns, setCampaigns] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { contract, filteredCampaigns, isLoadingCampaigns } = useStateContext();
+  const [lastCount, setLastCount] = useState(DEFAULT_COUNT);
+  const router = useRouter();
 
   useEffect(() => {
-    if (!contract) {
-      return;
-    }
-    const fetch = async () => {
-      const allCampaigns = await getCampaigns();
-      
-      setIsLoading(false);
-      setCampaigns(allCampaigns);
-    };
+    const newLastCount = localStorage.getItem("campaignCount");
 
-    fetch();
-  }, [contract]);
+    setLastCount(newLastCount ? +newLastCount : DEFAULT_COUNT);
+  }, []);
+
+  const handleNavigate = (campaign: any) => {
+    router.push(`/campaigns/${campaign.id}`);
+  };
+
   return (
     <div>
       <div>
-        <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
-          All Campaigns ({campaigns.length})
+        <h1 className="font-semibold text-[18px] text-white text-left">
+          All Campaigns ({filteredCampaigns.length})
         </h1>
 
         <div className={`flex flex-wrap mt-[20px] gap-[26px]`}>
-          {isLoading && (
+          {isLoadingCampaigns && (
             <>
-              <LoadingFundCard />
-              <LoadingFundCard />
-              <LoadingFundCard />
-              <LoadingFundCard />
-              </>
+              {Array(lastCount)
+                .fill("")
+                .map((_, i) => (
+                  <LoadingFundCard key={i} />
+                ))}
+            </>
           )}
 
-          {!isLoading && campaigns.length === 0 && (
-            <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183]">
+          {!isLoadingCampaigns && filteredCampaigns.length === 0 && (
+            <p className="font-semibold text-[14px] leading-[30px] text-[#818183]">
               You have not created any campigns yet
             </p>
           )}
 
-          {!isLoading &&
-            campaigns.length > 0 &&
-            campaigns.map((campaign: any) => (
+          {!isLoadingCampaigns &&
+            filteredCampaigns.length > 0 &&
+            filteredCampaigns.map((campaign: any) => (
               <FundCard
                 key={campaign.id}
                 {...campaign}
-                // handleClick={() => handleNavigate(campaign)}
+                onClick={() => handleNavigate(campaign)}
               />
             ))}
         </div>
