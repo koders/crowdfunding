@@ -1,3 +1,5 @@
+import { FiGrid, FiPlus } from "react-icons/fi";
+
 export const daysLeft = (deadline: string) => {
   const difference = new Date(deadline).getTime() - Date.now();
   const remainingDays = difference / (1000 * 3600 * 24);
@@ -20,3 +22,16 @@ export const validateImage = (url: string) => {
     img.onerror = () => resolve(false);
   });
 };
+
+export const PAGES = [
+  {
+    name: "Dashboard",
+    icon: FiGrid,
+    link: "/",
+  },
+  {
+    name: "New Campaign",
+    icon: FiPlus,
+    link: "/create-campaign",
+  },
+];

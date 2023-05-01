@@ -104,7 +104,7 @@ const Campaign: NextPage<Props> = ({}) => {
             </div>
           </div>
 
-          <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
+          <div className="flex md:w-[150px] w-full flex-wrap justify-center md:justify-between gap-[30px]">
             <CountBox title="Days Left" value={remainingDays} />
             <CountBox
               title={`Raised of ${ethers.utils.formatEther(
@@ -134,12 +134,9 @@ const Campaign: NextPage<Props> = ({}) => {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-[14px] text-white break-all">
+                  <h4 className="font-semibold text-xs md:text-base text-white">
                     {campaign.owner}
                   </h4>
-                  <p className="mt-[4px] font-normal text-[12px] text-[#808191]">
-                    10 Campaigns
-                  </p>
                 </div>
               </div>
             </div>
@@ -150,7 +147,7 @@ const Campaign: NextPage<Props> = ({}) => {
               </h4>
 
               <div className="mt-[20px]">
-                <p className="font-normal text-[16px] text-[#808191] leading-[26px] text-justify">
+                <p className="font-normal text-sm md:text-base text-[#808191] leading-[26px] text-justify">
                   {campaign.description}
                 </p>
               </div>
@@ -161,17 +158,17 @@ const Campaign: NextPage<Props> = ({}) => {
                 Donators
               </h4>
 
-              <div className="mt-[20px] flex flex-col gap-4">
+              <div className="mt-4 flex flex-col gap-4">
                 {donators.length > 0 ? (
                   donators.map((item: any, index: any) => (
                     <div
                       key={`${item.donator}-${index}`}
-                      className="flex justify-between items-center gap-4"
+                      className="flex justify-between items-center gap-4 text-[10px] md:text-base"
                     >
-                      <p className="font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll">
+                      <p className="text-[#b2b3bd] whitespace-nowrap">
                         {index + 1}. {item.address}
                       </p>
-                      <p className="font-normal text-[16px] text-[#808191] leading-[26px] break-ll">
+                      <p className="text-[#808191]">
                         {ethers.utils.formatEther(item.amount.toString())}
                       </p>
                     </div>

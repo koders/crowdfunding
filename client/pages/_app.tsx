@@ -2,7 +2,7 @@ import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Sidebar, Navbar } from "../components";
+import { Navbar } from "../components";
 import { AppProps } from "next/app";
 import { StateContextProvider } from "../context";
 import { ToastContainer } from "react-toastify";
@@ -16,11 +16,10 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ThirdwebProvider activeChain={ACTIVE_CHAIN}>
       <StateContextProvider>
-        <div className="flex h-screen p-4 w-full bg-gradient-to-br from-[rgb(19, 20, 23)] to-[rgb(29, 30, 33)]">
-          {/* <Sidebar /> */}
+        <div className="flex h-screen p-2 md:p-4 w-full bg-gradient-to-br from-[rgb(19, 20, 23)] to-[rgb(29, 30, 33)]">
           <div className="w-full">
             <Navbar />
-            <div className="p-8">
+            <div className="p-8 pb-32">
               <ToastContainer />
               <Component {...pageProps} />
             </div>
