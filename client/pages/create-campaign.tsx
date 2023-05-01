@@ -7,13 +7,19 @@ import { ethers } from "ethers";
 import { validateImage } from "../utils";
 import { IForm } from "../types";
 import Button from "../components/Button";
+import { useContractWrite } from "@thirdweb-dev/react";
+import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 interface Props {}
 
 const CreateCampaign: NextPage<Props> = ({}) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { publishCampaign } = useStateContext();
+  const { contract, address } = useStateContext();
+  const { mutateAsync: createCampaign, isLoading } = useContractWrite(
+    contract,
+    "createCampaign"
+  );
   const [form, setForm] = useState<IForm>({
     name: "",
     title: "",
@@ -34,13 +40,42 @@ const CreateCampaign: NextPage<Props> = ({}) => {
     const isValidImage = await validateImage(form.imageUrl);
 
     if (isValidImage) {
-      setIsLoading(true);
-      await publishCampaign({
-        ...form,
-        target: "" + ethers.utils.parseUnits(form.target, 18),
-      });
-      setIsLoading(false);
-      // router.push("/");
+      try {
+        const data = await createCampaign({
+          args: [
+            address,
+            form.title,
+            form.description,
+            ethers.utils.parseUnits(form.target, 18),
+            new Date(form.deadline).getTime(),
+            form.imageUrl,
+          ],
+        });
+        console.info("contract call successs", data);
+        toast.success("Campaign created!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        router.push("/");
+      } catch (err) {
+        toast.error("Something went wrong...", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        console.error("contract call failure", err);
+      }
     } else {
       alert("Provide valid image URL");
       setForm({ ...form, imageUrl: "" });
@@ -48,7 +83,14 @@ const CreateCampaign: NextPage<Props> = ({}) => {
   };
   return (
     <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-      {/* {isLoading && <Loader />} */}
+      {isLoading && (
+        <>
+          <div className="flex items-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 z-20">
+            <Spinner /> Transaction in progress...
+          </div>
+          <div className="fixed left-0 top-0 w-full h-full backdrop-blur-sm bg-black/30 z-10"></div>
+        </>
+      )}
       <h1 className="text-4xl font-semibold">Start a Campaign</h1>
 
       <form

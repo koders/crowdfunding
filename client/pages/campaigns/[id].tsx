@@ -7,6 +7,8 @@ import { calculateBarPercentage, daysLeft } from "../../utils";
 import CountBox from "../../components/CountBox";
 import { ethers } from "ethers";
 import Button from "../../components/Button";
+import Spinner from "../../components/Spinner";
+import { toast } from "react-toastify";
 
 interface Props {}
 
@@ -37,12 +39,30 @@ const Campaign: NextPage<Props> = ({}) => {
         overrides: { value: ethers.utils.parseEther(amount) },
       });
       console.info("contract call successs", data);
+      toast.success("Thank you for donating!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      router.push("/");
     } catch (err) {
       console.error("contract call failure", err);
     }
   };
 
-  if (!campaign) return <div>Loading...</div>;
+  if (!campaign)
+    return (
+      <>
+        <div className="flex items-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 z-20">
+          <Spinner /> Loading...
+        </div>
+      </>
+    );
 
   const remainingDays = daysLeft(campaign?.deadline.toNumber());
 
@@ -53,6 +73,14 @@ const Campaign: NextPage<Props> = ({}) => {
 
   return (
     <div>
+      {isLoadingDonate && (
+        <>
+          <div className="flex items-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 z-20">
+            <Spinner /> Transaction in progress...
+          </div>
+          <div className="fixed left-0 top-0 w-full h-full backdrop-blur-sm bg-black/30 z-10"></div>
+        </>
+      )}
       <div>
         <h1 className="text-3xl font-bold text-center">{campaign.title}</h1>
         <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">

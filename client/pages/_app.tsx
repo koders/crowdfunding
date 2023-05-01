@@ -1,9 +1,11 @@
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Sidebar, Navbar } from "../components";
 import { AppProps } from "next/app";
 import { StateContextProvider } from "../context";
+import { ToastContainer } from "react-toastify";
 
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
@@ -19,6 +21,7 @@ function App({ Component, pageProps }: AppProps) {
           <div className="w-full">
             <Navbar />
             <div className="p-8">
+              <ToastContainer />
               <Component {...pageProps} />
             </div>
           </div>

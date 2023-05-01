@@ -13,14 +13,12 @@ import {
   useContractWrite,
   useMetamask,
 } from "@thirdweb-dev/react";
-import { IForm } from "../types";
 import { ethers } from "ethers";
 
 interface StateContextProps {
   address: string | undefined;
   connect: () => void;
   contract: SmartContract | undefined;
-  publishCampaign: ({}: IForm) => void;
   filter: string;
   setFilter: (text: string) => void;
   filteredCampaigns: any;
@@ -51,25 +49,6 @@ export const StateContextProvider = ({
     contract,
     "getCampaigns"
   );
-
-  const publishCampaign = async (form: IForm) => {
-    try {
-      const data = await createCampaign({
-        args: [
-          address,
-          form.title,
-          form.description,
-          form.target,
-          new Date(form.deadline).getTime(),
-          form.imageUrl,
-        ],
-      });
-
-      console.log("contract call success", data);
-    } catch (error) {
-      console.log("contract call failure", error);
-    }
-  };
 
   useEffect(() => {
     if (!rawCampaigns) return;
@@ -104,7 +83,6 @@ export const StateContextProvider = ({
         address,
         connect,
         contract,
-        publishCampaign,
         filteredCampaigns,
         setFilter,
         filter,
