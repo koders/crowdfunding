@@ -1,4 +1,4 @@
-import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,10 +16,10 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ThirdwebProvider activeChain={ACTIVE_CHAIN}>
       <StateContextProvider>
-        <div className="flex h-screen p-2 md:p-4 w-full bg-gradient-to-br from-[rgb(19, 20, 23)] to-[rgb(29, 30, 33)]">
-          <div className="w-full">
+        <div className="flex justify-center h-screen p-4 bg-gradient-to-br from-[rgb(19, 20, 23)] to-[rgb(29, 30, 33)]">
+          <div className="md:max-w-[1080px]">
             <Navbar />
-            <div className="p-8 pb-32">
+            <div className="w-full p-4 md:p-8 pb-32">
               <ToastContainer />
               <Component {...pageProps} />
             </div>

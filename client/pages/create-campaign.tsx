@@ -91,7 +91,7 @@ const CreateCampaign: NextPage<Props> = ({}) => {
           <div className="fixed left-0 top-0 w-full h-full backdrop-blur-sm bg-black/30 z-10"></div>
         </>
       )}
-      <h1 className="text-4xl font-semibold">Start a Campaign</h1>
+      <h1 className="text-3xl font-semibold">Start a Campaign</h1>
 
       <form
         onSubmit={handleSubmit}
