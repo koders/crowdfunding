@@ -9,7 +9,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex w-full content-center items-center">
+    <div className="flex w-full content-center items-center z-50">
       <div className="flex items-center">
         {/* LOGO */}
         <div className="w-12 md:w-20">
@@ -40,7 +40,7 @@ export const Navigation = () => {
   const router = useRouter();
 
   return (
-    <div className="bg-gradient-to-br from-[#212121] to-[#151515] md:bg-none w-full fixed bottom-0 left-0 md:relative flex justify-center md:justify-start">
+    <div className="bg-gradient-to-br from-[#212121] to-[#151515] md:bg-none w-full fixed bottom-0 left-0 md:relative flex justify-center md:justify-start z-50">
       <div className="flex p-2 md:py-4 md:mr-4 gap-8 md:ml-8">
         {PAGES.map((page) => {
           const isActive = router.pathname === page.link;
