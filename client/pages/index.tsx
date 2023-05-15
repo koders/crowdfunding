@@ -5,7 +5,7 @@ import FundCard from "../components/FundCard";
 import LoadingFundCard from "../components/LoadingFundCard";
 import { Router, useRouter } from "next/router";
 
-const DEFAULT_COUNT = 0;
+const DEFAULT_COUNT = 3;
 
 const Home: NextPage = () => {
   const { contract, filteredCampaigns, isLoadingCampaigns } = useStateContext();
