@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
     <ThirdwebProvider activeChain={ACTIVE_CHAIN}>
       <StateContextProvider>
         <div className="flex justify-center h-screen p-4 bg-gradient-to-br from-[rgb(19, 20, 23)] to-[rgb(29, 30, 33)]">
-          <div className="md:max-w-[1080px]">
+          <div className="md:w-[1080px]">
             <Navbar />
             <div className="w-full p-4 md:p-8 pb-32">
               <ToastContainer />
